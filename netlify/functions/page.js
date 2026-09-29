@@ -13,6 +13,9 @@ exports.handler = async (event) => {
   const host = (event.headers && (event.headers.host || event.headers.Host)) || "beykicakely.netlify.app";
   let html = await (await fetch(`https://${host}/app.html`)).text();
   const s = await getShop();
+  html = html.replace(/(property="og:image" content=")[^"]*/, "$1https://" + host + "/share.jpg?t=" + Date.now().toString().slice(0,7))
+             .replace(/(name="twitter:image" content=")[^"]*/, "$1https://" + host + "/share.jpg")
+             .replace(/(property="og:url" content=")[^"]*/, "$1https://" + host + "/");
   if (s.name) {
     const t = esc(s.name + " รีวิว 💕");
     html = html.replace(/(property="og:title" content=")[^"]*/, "$1" + t)
