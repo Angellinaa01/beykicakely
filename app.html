@@ -632,6 +632,15 @@ body.inadmin nav,body.inadmin .topbar{display:none}
       <button class="save" data-sec="fav">บันทึกโลโก้</button>
     </div>
 
+    <div class="sec"><h3>🖼️ รูปโปรไฟล์ร้าน (ขึ้นตอนแชร์ลิงก์)</h3>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div id="shPrev" style="flex:none;width:84px;height:84px;border-radius:16px;background:var(--bg) center/cover;box-shadow:inset 0 0 0 1.5px var(--line);display:grid;place-items:center;color:var(--mute);font-size:12px">ยังไม่มี</div>
+        <div style="flex:1;min-width:0"><input type="file" id="shFile" accept="image/*"><button type="button" id="shDel" style="border:0;background:none;color:var(--mute);cursor:pointer;margin-top:6px">ลบรูป</button></div>
+      </div>
+      <div class="lbl">เปลี่ยนรูปแล้ว ตอนแชร์ LINE ให้เปลี่ยนเลขท้ายลิงก์ เช่น ?v=2 → ?v=3</div>
+      <button class="save" data-sec="share">บันทึกรูปโปรไฟล์ร้าน</button>
+    </div>
+
     <div class="sec"><h3>🔑 เปลี่ยนรหัสหลังบ้าน</h3>
       <div class="lbl">รหัสเดิม</div><input id="pinOld" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
       <div class="lbl">รหัสใหม่ (ตัวเลข 4–6 หลัก)</div><input id="pinNew" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
@@ -890,7 +899,7 @@ let S={tbIcon:'🎀',tbText:'Welcome to Sumintra',tbRun:false,tbStyle:'tb1',fTop
   phone:'p1',avatar:'',cName:'Sumintra',cSub:'ตอบกลับทันที',fChat:'Sarabun',
   hello:'📢 ประกาศจากร้าน\nสวัสดีค่ะ ยินดีต้อนรับสู่ Sumintra 💕 เลือกหัวข้อด้านล่างได้เลยค่ะ',
   qa:'รอส่งของนานไหม|ไม่นานค่ะ รอจัดส่งภายใน 5-10 นาที\nชำระเงินช่องทางไหนได้บ้าง|โอนผ่านธนาคารหรือพร้อมเพย์ได้เลยค่ะ\nมีประกันไหม|มีประกันตลอดอายุการใช้งานค่ะ',
-  eff:null,theme:{},doneImg:'',doneIcon:'💖',doneTitle:'ขอบคุณสำหรับรีวิวค่ะ',doneSub:'รีวิวของคุณขึ้นหน้าร้านแล้ว',doneBtnTx:'ปิด',favicon:'',tiltOn:true,rmqOn:true,rmqSpeed:5,rmqStyle:'pill',rmqPos:'bottom',rmqDir:'left',rmqTitle:'💬 ลูกค้าพูดถึงเรา',contacts:'',contactsList:[{icon:'💬',img:'',name:'LINE @sumintra',link:'https://line.me'},{icon:'📘',img:'',name:'Facebook Sumintra',link:'https://facebook.com'}],ctStyle:'ct1',fBody:'Sarabun',
+  eff:null,theme:{},doneImg:'',doneIcon:'💖',doneTitle:'ขอบคุณสำหรับรีวิวค่ะ',doneSub:'รีวิวของคุณขึ้นหน้าร้านแล้ว',doneBtnTx:'ปิด',favicon:'',shareImg:'',tiltOn:true,rmqOn:true,rmqSpeed:5,rmqStyle:'pill',rmqPos:'bottom',rmqDir:'left',rmqTitle:'💬 ลูกค้าพูดถึงเรา',contacts:'',contactsList:[{icon:'💬',img:'',name:'LINE @sumintra',link:'https://line.me'},{icon:'📘',img:'',name:'Facebook Sumintra',link:'https://facebook.com'}],ctStyle:'ct1',fBody:'Sarabun',
   tbSpeed:5, wbText:'เขียนรีวิว', wbIcon:'✎', wbStyle:'wb1', rvStyle:'rs1',
   hellos:['📢 ประกาศจากร้าน','สวัสดีค่ะ ยินดีต้อนรับสู่ Sumintra 💕','เลือกคำถามด้านล่างได้เลยค่ะ'],
   qas:[{q:'รอส่งของนานไหม',a:'ไม่นานค่ะ รอจัดส่งภายใน 5-10 นาที'},{q:'ชำระเงินช่องทางไหนได้บ้าง',a:'โอนผ่านธนาคารหรือพร้อมเพย์ได้เลยค่ะ'},{q:'มีประกันไหม',a:'มีประกันตลอดอายุการใช้งานค่ะ'}],
@@ -1224,6 +1233,7 @@ function ctHTML(list,st){list=list.filter(x=>x.name||x.link);if(!list.length)ret
   return list.map(x=>`<a class="ct ${st||'ct1'}" href="${esc(x.link||'#')}" target="_blank" rel="noopener"><span class="ci">${x.img?`<img src="${esc(x.img)}" alt="">`:esc(x.icon||'🔗')}</span><b>${esc(x.name)}</b><span class="arr">›</span></a>`).join('')}
 function drawDone(big,t,sb,btn,o){big.innerHTML=o.doneImg?`<img src="${esc(o.doneImg)}" alt="">`:esc(o.doneIcon||'💖');t.textContent=o.doneTitle||'';sb.textContent=o.doneSub||'';btn.textContent=o.doneBtnTx||'ปิด'}
 function iconify(f,n=192){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=n;const x=c.getContext('2d');const k=Math.min(n/im.width,n/im.height),w=im.width*k,h=im.height*k;x.drawImage(im,(n-w)/2,(n-h)/2,w,h);res(c.toDataURL('image/png'))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(f)})}
+function sqCrop(f,N=600){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=N;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,N,N);const k=Math.max(N/im.width,N/im.height),w=im.width*k,h=im.height*k;x.drawImage(im,(N-w)/2,(N-h)/2,w,h);res(c.toDataURL('image/jpeg',.85))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(f)})}
 function setAv(el,url,name){el.style.backgroundImage=url?`url("${url}")`:'';el.textContent=url?'':(name||'S')[0]}
 let bTimer;
 function drawBanner(){
@@ -1543,6 +1553,9 @@ function drawAdmin(){
   $('favFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;E.favicon=await iconify(f).catch(()=>E.favicon);e.target.value='';fvUp();$('favIco').href=E.favicon;toast('ใส่โลโก้แล้ว กดบันทึกด้วยนะคะ')};
   $('favDel').onclick=()=>{E.favicon='';fvUp()};
   $('tiltOn').checked=E.tiltOn!==false;$('tiltOn').onchange=()=>{E.tiltOn=$('tiltOn').checked};
+  const shUp=()=>{$('shPrev').style.backgroundImage=E.shareImg?`url(${E.shareImg})`:'';$('shPrev').textContent=E.shareImg?'':'ยังไม่มี'};shUp();
+  $('shFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;E.shareImg=await sqCrop(f).catch(()=>E.shareImg);e.target.value='';shUp();toast('ใส่รูปแล้ว กดบันทึกด้วยนะคะ')};
+  $('shDel').onclick=()=>{E.shareImg='';shUp()};
   $('themeList').innerHTML=THEME_KEYS.map(([k,n,,d])=>`<div class="colrow" style="justify-content:space-between"><span style="font-size:14px">${n}</span><input type="color" data-tk="${k}" value="${E.theme[k]||d}"></div>`).join('');
   $('themeList').querySelectorAll('[data-tk]').forEach(el=>el.oninput=()=>{E.theme[el.dataset.tk]=el.value;applyTheme(E.theme)});
   $('themeReset').onclick=()=>{E.theme={};applyTheme(E.theme);drawAdmin()};
@@ -1570,6 +1583,7 @@ const SEC={
   charm:()=>({charmsJson:JSON.stringify(E.charms)}),
   div:()=>({divStyle:E.divStyle,divColor:E.divColor}),
   eff:()=>({eff:E.eff}),
+  share:()=>({shareImg:E.shareImg||''}),
   tilt:()=>({tiltOn:$('tiltOn').checked}),
   fav:()=>({favicon:E.favicon||''}),
   done:()=>({doneImg:E.doneImg||'',doneIcon:E.doneIcon||'💖',doneTitle:E.doneTitle||'',doneSub:E.doneSub||'',doneBtnTx:E.doneBtnTx||'ปิด'}),
